@@ -1,0 +1,11 @@
+---
+// TEMPLATE dashboard widget shell (server component). Renders the card chrome
+// and embeds a hydrated React island. The Dashboard host renders this via
+// virtual:panel-widgets. Replace the body with your widget.
+import WidgetBody from "../islands/WidgetBody.tsx";
+---
+
+<article class="widget widget--template">
+  <h3>Vorlage</h3>
+  <WidgetBody client:load />
+</article>
