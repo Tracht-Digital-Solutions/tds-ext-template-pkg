@@ -40,7 +40,7 @@ CI/publish pipeline all wired against `tds-panel-contract`.
 ```bash
 npm install        # pulls tds-panel-contract from GitHub Packages (needs NPM_TOKEN)
 npm run build && npm run type-check
-composer install   # resolves tds-panel-contract via VCS (or the local path repo)
+composer install   # resolves tds-panel-contract from its public VCS repo
 composer test
 ```
 

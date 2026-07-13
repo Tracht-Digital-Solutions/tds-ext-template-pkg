@@ -18,8 +18,9 @@ reference; this is the empty scaffold with the same shape + a rename checklist
 ## Conventions baked in (don't regress)
 
 - Depends on the **published** `tds-panel-contract` (`^0.2.0`), not a path link —
-  npm from GitHub Packages (via `.npmrc` + `NPM_TOKEN`), Composer via VCS (public
-  repo) with a local path repo as a dev-only fallback.
+  npm from GitHub Packages (via `.npmrc` + `NPM_TOKEN`), Composer from the public
+  VCS repo. No local path repo — Composer fatals on a missing path repo in CI, so
+  extensions resolve the contract purely via VCS (a clone, not a sibling).
 - CI installs with **`npm install --no-package-lock`** (win32 lockfile breaks the
   Linux runner) — never `npm ci` + a committed lockfile here.
 - `PACKAGE_TOKEN` (a public-Packages-friendly PAT) both installs the contract and
