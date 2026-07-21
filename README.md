@@ -1,8 +1,8 @@
-# tds-ext-template
+# tds-ext-template-pkg
 
 Template for a **TDS panel extension**. Clone it, run the rename checklist, and
 you have a working extension — frontend manifest, PHP `Module`, and the dual
-CI/publish pipeline all wired against `tds-panel-contract`.
+CI/publish pipeline all wired against `tds-panel-contract-pkg`.
 
 ## What you get
 
@@ -24,7 +24,7 @@ CI/publish pipeline all wired against `tds-panel-contract`.
 3. **Rename** — replace throughout:
    - `template` → your extension id (kebab-case) in `src/index.ts`, and the
      contribution ids/labels
-   - `tds-ext-template` → `tds-ext-<yours>` in `package.json` (name + repository),
+   - `tds-ext-template-pkg` → `tds-ext-<yours>` in `package.json` (name + repository),
      `composer.json` (name), the `island`/`entrypoint` specifiers in `src/index.ts`,
      `tsup.config.ts` external, and the workflow `package-name:` (×2)
    - `Tds\Ext\Template` → your PHP namespace (`composer.json` autoload +

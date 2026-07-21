@@ -1,7 +1,7 @@
-# AGENTS.md — tds-ext-template
+# AGENTS.md — tds-ext-template-pkg
 
-The clone base for TDS panel extensions. Read `tds-panel-contract`'s AGENTS.md
-first — extensions implement that contract. `tds-ext-time-tracker` is the worked
+The clone base for TDS panel extensions. Read `tds-panel-contract-pkg`'s AGENTS.md
+first — extensions implement that contract. `tds-ext-time-tracker-pkg` is the worked
 reference; this is the empty scaffold with the same shape + a rename checklist
 (see README.md).
 
@@ -31,6 +31,6 @@ reference; this is the empty scaffold with the same shape + a rename checklist
 ## When cloned
 
 Do the README rename checklist in full — a leftover `template`/`Template`/
-`tds-ext-template` string will collide with this template or misresolve a
+`tds-ext-template-pkg` string will collide with this template or misresolve a
 specifier. `composeExtensions` / `ModuleRegistry` hard-error on a duplicate id, so
 a missed rename fails loudly at the host build rather than silently.
