@@ -3,7 +3,7 @@
   "description": "Template for a TDS panel extension (backend Module).",
   "type": "library",
   "license": "proprietary",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "require": {
     "php": ">=8.1",
     "slim/slim": "^4.13",
@@ -14,7 +14,10 @@
     "slim/psr7": "^1.6"
   },
   "repositories": [
-    { "type": "vcs", "url": "https://github.com/Tracht-Digital-Solutions/tds-panel-contract-pkg" }
+    {
+      "type": "vcs",
+      "url": "https://github.com/Tracht-Digital-Solutions/tds-panel-contract-pkg"
+    }
   ],
   "autoload": {
     "psr-4": {
