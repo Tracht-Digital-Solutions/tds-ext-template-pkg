@@ -1,8 +1,8 @@
 # tds-ext-template-pkg
 
-Template for a **TDS panel extension**. Clone it, run the rename checklist, and
+Template for a **TDS frontend extension**. Clone it, run the rename checklist, and
 you have a working extension — frontend manifest, PHP `Module`, and the dual
-CI/publish pipeline all wired against `tds-panel-contract-pkg`.
+CI/publish pipeline all wired against `tds-frontend-contract-pkg`.
 
 ## What you get
 
@@ -32,15 +32,15 @@ CI/publish pipeline all wired against `tds-panel-contract-pkg`.
    - `Template` migration class prefix → your module id prefix
 4. **Implement** your slots; delete the ones you don't use.
 5. **Enable it** in the products: add the manifest to the host's
-   `astro.config.mjs` (`panelHost({ extensions: [...] })`) and `new YourModule()`
-   to `tds-core-panel-api`'s `Modules::enabled()`.
+   `astro.config.mjs` (`frontendHost({ extensions: [...] })`) and `new YourModule()`
+   to `tds-core-frontend-api`'s `Modules::enabled()`.
 
 ## Develop
 
 ```bash
-npm install        # pulls tds-panel-contract from GitHub Packages (needs NPM_TOKEN)
+npm install        # pulls tds-frontend-contract from GitHub Packages (needs NPM_TOKEN)
 npm run build && npm run type-check
-composer install   # resolves tds-panel-contract from its public VCS repo
+composer install   # resolves tds-frontend-contract from its public VCS repo
 composer test
 ```
 

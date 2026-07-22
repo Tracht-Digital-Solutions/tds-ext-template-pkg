@@ -1,4 +1,4 @@
-import { defineExtension } from "@tracht-digital-solutions/tds-panel-contract";
+import { defineExtension } from "@tracht-digital-solutions/tds-frontend-contract";
 
 /**
  * TEMPLATE extension manifest. Clone this repo, then rename:
@@ -9,7 +9,7 @@ import { defineExtension } from "@tracht-digital-solutions/tds-panel-contract";
  * See README.md for the full checklist.
  *
  * The six contribution slots below are all optional — delete the ones your
- * extension doesn't use. `panel-contract`'s composeExtensions validates this at
+ * extension doesn't use. `frontend-contract`'s composeExtensions validates this at
  * the host build and hard-errors on a collision with another extension.
  */
 export default defineExtension({

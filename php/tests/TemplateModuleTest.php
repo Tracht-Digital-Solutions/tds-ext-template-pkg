@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Slim\Factory\AppFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Tds\Ext\Template\TemplateModule;
-use Tds\Panel\Contract\ModuleRegistry;
+use Tds\Frontend\Contract\ModuleRegistry;
 
 /**
  * TEMPLATE test: composes the module through a real ModuleRegistry + Slim app

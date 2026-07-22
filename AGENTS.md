@@ -1,6 +1,6 @@
 # AGENTS.md — tds-ext-template-pkg
 
-The clone base for TDS panel extensions. Read `tds-panel-contract-pkg`'s AGENTS.md
+The clone base for TDS frontend extensions. Read `tds-frontend-contract-pkg`'s AGENTS.md
 first — extensions implement that contract. `tds-ext-time-tracker-pkg` is the worked
 reference; this is the empty scaffold with the same shape + a rename checklist
 (see README.md).
@@ -17,7 +17,7 @@ reference; this is the empty scaffold with the same shape + a rename checklist
 
 ## Conventions baked in (don't regress)
 
-- Depends on the **published** `tds-panel-contract` (`^0.2.0`), not a path link —
+- Depends on the **published** `tds-frontend-contract` (`^0.2.0`), not a path link —
   npm from GitHub Packages (via `.npmrc` + `NPM_TOKEN`), Composer from the public
   VCS repo. No local path repo — Composer fatals on a missing path repo in CI, so
   extensions resolve the contract purely via VCS (a clone, not a sibling).

@@ -6,8 +6,8 @@ namespace Tds\Ext\Template;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
-use Tds\Panel\Contract\AbstractModule;
-use Tds\Panel\Contract\PermissionDef;
+use Tds\Frontend\Contract\AbstractModule;
+use Tds\Frontend\Contract\PermissionDef;
 
 /**
  * TEMPLATE backend Module. Clone + rename:
