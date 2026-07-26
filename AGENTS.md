@@ -64,8 +64,21 @@ Three traps, each of which shipped as a real bug:
   bare `Expected ")"` pointing at the comment's own closing line. The same applies
   to multi-line `{/* … */}` in an `.astro` template body.
 
-Only genuinely per-component internal layout should carry a bespoke name — and
-even then it renders unstyled unless a rule exists for it somewhere.
+For a component's **internal** layout, reach for the generic primitives before
+inventing anything: `.tds-stack` (+ `--tight` / `--loose`) for a vertical stack —
+form bodies, detail panels, reply lists; `.tds-row` (+ `--between`) for a
+wrapping horizontal row — header rows, filter bars, tab strips; `.tds-compose`
+(+ `__actions`) for a reply box. Those three plus the existing `.tds-toolbar`
+(action rows) and `.tds-marginalia`-style `.marginalia` (metadata and hint text)
+absorbed 46 of the class names extensions had invented for exactly these shapes.
+
+**~31 names across the platform legitimately stay bespoke** and are knowingly
+unstyled — genuinely singular internals such as `cms-editor__blocks`,
+`live-chat-settings__matrix`, `blog-editor__preview`, `api-wiki__routes`,
+`time-tracker__timer`. If you add one, expect it to render on browser defaults
+until someone gives it a rule; that is the accepted trade, not an oversight.
+(`widget-slot__*` looks orphan but is styled by an inline `<style>` in the host's
+dashboard page.)
 
 ## Conventions baked in (don't regress)
 
