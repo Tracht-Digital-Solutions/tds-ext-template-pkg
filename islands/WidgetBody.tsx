@@ -9,5 +9,5 @@ export default function WidgetBody() {
   useEffect(() => {
     setReady(true);
   }, []);
-  return <p className="widget__metric">{ready ? "—" : "…"}</p>;
+  return <p className="tds-widget__metric">{ready ? "—" : "…"}</p>;
 }
