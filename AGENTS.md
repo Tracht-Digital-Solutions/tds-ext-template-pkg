@@ -90,8 +90,17 @@ dashboard page.)
   Linux runner) — never `npm ci` + a committed lockfile here.
 - `PACKAGE_TOKEN` (a public-Packages-friendly PAT) both installs the contract and
   publishes this package; set `NPM_TOKEN` from it in CI.
-- Version bumps `package.json` + `composer.json` in lockstep; the pushed tag is
-  the Composer release ref.
+- **The npm and Composer versions move independently** — bump `package.json` for
+  a frontend-only change (markup, islands, styling) and `composer.json` only when
+  the PHP `Module` actually changes. The pushed tag is the Composer release ref.
+  Every extension in the platform has its npm version ahead of its Composer one
+  for exactly this reason; an earlier revision of this file claimed they move "in
+  lockstep", which no repo has ever done.
+- Declares `tds-shared` as a **peer** dependency (`>=0.14.0`), like astro and
+  react: the product installs it, and a second copy in the extension would mean
+  two token sets. An extension that omits it still builds — the product's copy
+  resolves — so the omission is invisible until someone installs the package
+  standalone. Keep it declared.
 
 ## When cloned
 
