@@ -38,6 +38,7 @@ The scaffold's markup is the reference. Use exactly these:
 | label + control | `tds-field-row` · toggle row `tds-toggle-row` |
 | message thread | `tds-thread` > `tds-thread__item--own` / `--other` |
 | loading | `<Spinner />` from `tds-shared/components` |
+| destructive confirm | `<ConfirmDialog />` from `tds-shared/components` — **never `window.confirm()`** |
 
 **Do not invent a bespoke BEM name for any of the above.** Every extension used to
 carry its own (`page page--x`, `widget widget--x`, `settings-section--x`,
@@ -58,6 +59,15 @@ Three traps, each of which shipped as a real bug:
 - **`.status-pill` is an inline label, not a banner.** For a block message use
   `.tds-alert`. A stretched `<p class="status-pill">` was the most common misuse
   in the platform, at 24 sites.
+- **A destructive action needs a `<ConfirmDialog>`, and it is controlled.** Park
+  the target in state from the row button, and let the dialog perform the action;
+  pass `busy` while the request is in flight so it cannot be double-submitted
+  (blocking `window.confirm()` gave that away for free — a non-blocking dialog
+  must do it explicitly). Auditing every `method: "DELETE"` against its gate
+  found **only 3 of 10 destructive actions confirmed at all** — invoices,
+  customers, blog posts, FAQ entries, docs and milestones each deleted on a
+  single unguarded click. The missing gate, not the ugly native prompt, is the
+  failure mode to watch for; grep `method: "DELETE"` when you add one.
 - **A JSX comment cannot sit in an expression position** — not after `=> (`, not
   in a ternary branch, not in a `.map()` return. It is valid only as JSX
   *children*. Put the note above the `return`; otherwise the build fails with a
