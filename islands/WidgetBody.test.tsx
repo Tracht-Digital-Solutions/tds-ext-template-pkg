@@ -21,7 +21,7 @@ describe("the placeholder widget", () => {
   it("leaves the loading placeholder behind", async () => {
     render(<WidgetBody />);
     await screen.findByText("—");
-    expect(screen.queryByText("…")).toBeNull();
+    expect(document.querySelector('[aria-busy="true"]')).toBeNull();
   });
 
   it("uses the widget metric class the dashboard grid styles", async () => {
