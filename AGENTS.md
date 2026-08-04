@@ -12,7 +12,11 @@ reference; this is the empty scaffold with the same shape + a rename checklist
   slots' entrypoints (package subpaths in `exports`).
 - `php/src/*Module.php` — the backend `Module`.
 - `php/db/migrations/*` — Phinx migrations, class names **prefixed with the
-  module id** (in-process auto-migrator = one process = no name reuse).
+  module id** (in-process auto-migrator = one process = no name reuse) — and the
+  **file name must map to the class** (`<version>_template_create_example.php` ⇒
+  `TemplateCreateExample`), so the prefix goes first in both. A mismatch throws
+  `Could not find class …` during the *scan* and aborts every extension's
+  migrations, not just yours.
 - `.github/workflows/*` — inline dual pipeline (phpunit + npm publish).
 
 ## Styling: use the shared primitives, never invent a class name
@@ -59,6 +63,32 @@ Three traps, each of which shipped as a real bug:
 - **`.status-pill` is an inline label, not a banner.** For a block message use
   `.tds-alert`. A stretched `<p class="status-pill">` was the most common misuse
   in the platform, at 24 sites.
+- **Report every mutation's outcome, and report it with a toast.**
+
+  ```tsx
+  import { toast } from "@tracht-digital-solutions/tds-shared/components";
+
+  const res = await api("/thing", { method: "PUT", body });
+  if (res.ok) toast.success("Gespeichert.");
+  else toast.danger(`Speichern fehlgeschlagen (HTTP ${res.status}).`);
+  ```
+
+  Rules that come with it:
+  - **Never `await` a mutation and drop the response.** That was the single most
+    common defect across the extensions — a 403 looked exactly like success:
+    the dialog closed, the draft cleared, the list reloaded, and the row was
+    still there. Optimistic UI must also roll back on failure.
+  - **Failure messages carry the HTTP status.** It is what separates "session
+    expired" from "service down" in a bug report.
+  - **Transient outcome → toast. Persistent state → in-flow `.tds-alert`.**
+    Load failures, form validation and "X is not configured" hints stay in the
+    flow — the first two name something to fix, the third names something an
+    operator has to go and set. Anything the user must **read or copy** (a
+    temporary password, a one-time link) never goes in a toast.
+  - **Never mount a `ToastHost`.** The frontend host mounts the only one; a
+    second would double every toast.
+  - The banner that keeps only failures gets `.tds-alert--danger`; several
+    extensions were rendering "Fehler: …" in the info hue.
 - **A destructive action needs a `<ConfirmDialog>`, and it is controlled.** Park
   the target in state from the row button, and let the dialog perform the action;
   pass `busy` while the request is in flight so it cannot be double-submitted
