@@ -12,7 +12,11 @@ reference; this is the empty scaffold with the same shape + a rename checklist
   slots' entrypoints (package subpaths in `exports`).
 - `php/src/*Module.php` — the backend `Module`.
 - `php/db/migrations/*` — Phinx migrations, class names **prefixed with the
-  module id** (in-process auto-migrator = one process = no name reuse).
+  module id** (in-process auto-migrator = one process = no name reuse) — and the
+  **file name must map to the class** (`<version>_template_create_example.php` ⇒
+  `TemplateCreateExample`), so the prefix goes first in both. A mismatch throws
+  `Could not find class …` during the *scan* and aborts every extension's
+  migrations, not just yours.
 - `.github/workflows/*` — inline dual pipeline (phpunit + npm publish).
 
 ## Styling: use the shared primitives, never invent a class name
