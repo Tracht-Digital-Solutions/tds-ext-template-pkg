@@ -11,10 +11,17 @@ use Phinx\Migration\AbstractMigration;
  *
  * Rename the file AND the class together, and keep them in sync: Phinx derives
  * the expected class from the file name (drop the version prefix, `ucwords` on
- * `_`), so `20260713000001_template_create_example.php` ⇒ `TemplateCreateExample`.
+ * `_`), so `20260901000001_template_create_example.php` ⇒ `TemplateCreateExample`.
  * A mismatch throws `Could not find class …` while the migration set is scanned,
  * which aborts the run for EVERY composed extension, not just yours — so the
  * module prefix goes first in the file name too, never `create_template_example`.
+ *
+ * **Give your clone its own version band.** Every enabled extension shares ONE
+ * `phinxlog`, so a reused numeric prefix collides there and Phinx aborts — and
+ * an aborted scan means NO extension migrates, not just yours. This file used to
+ * carry `20260713000001`, the same prefix as `tds-ext-time-tracker-pkg`; harmless
+ * only because the template is never enabled, but every clone inherited the
+ * collision. Bands in use: `202607*` and `202608*`. Pick a fresh date.
  */
 final class TemplateCreateExample extends AbstractMigration
 {

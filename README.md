@@ -30,6 +30,11 @@ CI/publish pipeline all wired against `tds-frontend-contract-pkg`.
    - `Tds\Ext\Template` → your PHP namespace (`composer.json` autoload +
      `php/src`, `php/tests`)
    - `Template` migration class prefix → your module id prefix
+   - **the migration's version prefix** → a fresh date. Every enabled extension
+     shares ONE `phinxlog`, so a reused numeric prefix collides there and Phinx
+     aborts — and an aborted scan means **no** extension migrates, not just
+     yours. Rename the file and the class together (Phinx derives the expected
+     class from the file name). Bands already in use: `202607*`, `202608*`.
 4. **Implement** your slots; delete the ones you don't use.
 5. **Enable it** in the products: add the manifest to the host's
    `astro.config.mjs` (`frontendHost({ extensions: [...] })`) and `new YourModule()`
