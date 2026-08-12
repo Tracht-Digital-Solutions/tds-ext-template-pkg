@@ -63,6 +63,28 @@ Three traps, each of which shipped as a real bug:
 - **`.status-pill` is an inline label, not a banner.** For a block message use
   `.tds-alert`. A stretched `<p class="status-pill">` was the most common misuse
   in the platform, at 24 sites.
+- **Call the API with `apiFetch`, NEVER a relative `fetch`.**
+
+  ```tsx
+  import { apiFetch } from "@tracht-digital-solutions/tds-shared/api";
+
+  const api = apiFetch; // sends the session cookie, resolves the API base
+  ```
+
+  Every extension used to define its own
+  `const api = (path, init) => fetch(path, { credentials: "include", ...init })`
+  — with a **relative** path. In a product that resolves against the product's
+  own static host, and its SPA fallback answers unknown paths with **200 +
+  HTML**: `res.ok` is `true`, `res.json()` throws, and the usual
+  `.catch(() => setRows([]))` renders a calm, permanent empty state. No error,
+  no console warning. The contact inbox reported "Keine Anfragen." for months
+  with the rows in the database. `apiFetch` resolves the base from
+  `<meta name="tds-api-base">` (written by the frontend host) and also routes
+  401s through the host's session backstop.
+
+  A mocked-fetch test cannot catch a regression here — a relative path satisfies
+  every behavioural assertion — so **assert the absolute host explicitly** in at
+  least one test.
 - **Report every mutation's outcome, and report it with a toast.**
 
   ```tsx
