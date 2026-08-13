@@ -17,6 +17,14 @@ reference; this is the empty scaffold with the same shape + a rename checklist
   `TemplateCreateExample`), so the prefix goes first in both. A mismatch throws
   `Could not find class …` during the *scan* and aborts every extension's
   migrations, not just yours.
+- `php/docs/api.php` — one entry per mounted route (summary, params, responses,
+  required permission), returned by the Module's `apiDocs()`. The admin
+  frontend's API reference joins it onto the introspected Slim routes by
+  `"<METHOD> <pattern>"`, so the pattern must be **verbatim**, inline regex
+  included. `php/tests/*ApiDocsTest.php` asserts the documented set and the
+  registered set are the same set — **keep both files when cloning**; adding a
+  route without describing it then fails your own suite instead of quietly
+  leaving a blank row in the reference.
 - `.github/workflows/*` — inline dual pipeline (phpunit + npm publish).
 
 ## Styling: use the shared primitives, never invent a class name

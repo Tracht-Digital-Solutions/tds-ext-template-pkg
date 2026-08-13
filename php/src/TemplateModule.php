@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Tds\Frontend\Contract\AbstractModule;
+use Tds\Frontend\Contract\ApiDocSource;
 use Tds\Frontend\Contract\PermissionDef;
 
 /**
@@ -16,7 +17,7 @@ use Tds\Frontend\Contract\PermissionDef;
  *   - the migration class prefix (Template*)
  * Delete the slots (migrations/permissions/settings/routes) you don't use.
  */
-final class TemplateModule extends AbstractModule
+final class TemplateModule extends AbstractModule implements ApiDocSource
 {
     public function id(): string
     {
@@ -42,5 +43,16 @@ final class TemplateModule extends AbstractModule
     public function permissions(): array
     {
         return [new PermissionDef('template:read', 'Vorlage ansehen', 'template')];
+    }
+
+    /**
+     * Route documentation for the admin frontend's API reference. Kept in its
+     * own file so the prose does not sit in the middle of the wiring.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function apiDocs(): array
+    {
+        return require __DIR__ . '/../docs/api.php';
     }
 }
