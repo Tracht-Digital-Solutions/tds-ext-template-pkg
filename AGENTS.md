@@ -235,3 +235,27 @@ Tailwind utility, and neither is checked by anything at runtime. Two rules:
 `<table>` without `tds-table` and a flex/grid table cell, which silently
 drops the cell out of the column algorithm). It is a **regex scan**, so a tag
 name written inside a comment counts as markup — name elements in prose.
+
+**`scripts/lint-primitives.mjs` here is the seed for all 20 repos that carry it**
+(14 `tds-ext-*`, 4 `tds-tool-*`, `tds-core-frontend-pkg`, `tds-tools-frontend`)
+and every copy is byte-identical. Reusable workflows are org-blocked, so copying
+is the mechanism — change it here, then propagate to all 20 and re-run each one.
+
+It also checks that a `btn-*` variant actually exists in tds-shared (`btn
+btn-secondary` used to pass while matching no rule at all — geometry and a touch
+target, no colour) and accepts `.tds-dropdown__trigger`/`__item` as shared
+classes, because forcing `.btn` onto a menu row would give it pill radius and
+button padding. Those two checks lived only in `tds-core-frontend-pkg` until
+2026-08-16; they are merged in, so don't fork the script again.
+
+> **Fixed 2026-08-16 — read this before "fixing" a false positive.** Tags used to
+> be matched with `[^>]*>`, which stops at the **first `>`**, and an arrow handler
+> (`onClick={() => …}`) supplies one. A correctly classed control written after its
+> handler was therefore reported as bare, and every repo had absorbed that by
+> putting `className` first — a convention nobody chose, enforced by a bug. It also
+> under-reported in silence: the `<td>`/`<th>` rule looks *for* a class, so a
+> truncated tag meant a `flex` cell was never found at all. `readTag()` now walks
+> the tag tracking string state and `{}` depth. `classOf()` additionally resolves a
+> local `const field = "…"`, so the check no longer depends on what a variable is
+> *named* (`{field}` passed, `{area}` did not). All 20 repos were re-run after the
+> fix with **zero findings**, so nothing had been hiding behind it.
