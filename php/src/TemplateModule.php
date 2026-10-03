@@ -8,7 +8,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
 use Tds\Frontend\Contract\AbstractModule;
 use Tds\Frontend\Contract\ApiDocSource;
+use Tds\Frontend\Contract\ModuleHttp;
 use Tds\Frontend\Contract\PermissionDef;
+use Tds\Frontend\Contract\UserContext;
 
 /**
  * TEMPLATE backend Module. Clone + rename:
@@ -19,6 +21,10 @@ use Tds\Frontend\Contract\PermissionDef;
  */
 final class TemplateModule extends AbstractModule implements ApiDocSource
 {
+    // json(), require(), requireAdmin() — from the contract. Do not copy them
+    // into the module; every extension cloned from here used to.
+    use ModuleHttp;
+
     public function id(): string
     {
         return 'template';
@@ -26,10 +32,16 @@ final class TemplateModule extends AbstractModule implements ApiDocSource
 
     public function register(App $app): void
     {
+        $c = $app->getContainer();
+
         // Widget data endpoint (matches the manifest's WidgetManifest.dataEndpoint).
-        $app->get('/template/summary', function (Request $request, Response $response): Response {
-            $response->getBody()->write(json_encode(['ok' => true], JSON_THROW_ON_ERROR));
-            return $response->withHeader('Content-Type', 'application/json');
+        // Every route checks the permission it is about: this one declared
+        // `template:read` and checked nothing, and every clone inherited that.
+        $app->get('/template/summary', function (Request $request, Response $response) use ($c): Response {
+            if (($deny = self::require($c->get(UserContext::class), 'template:read', $response)) !== null) {
+                return $deny;
+            }
+            return self::json($response, ['ok' => true]);
         });
     }
 
